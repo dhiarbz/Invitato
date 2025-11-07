@@ -18,42 +18,50 @@ export default function WelcomeMessage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
-  const slidesToShow = useBreakpointValue({ base: 1, md: 3 });
+  const slidesToShow = useBreakpointValue({ base: 1, md: 3 }) || 1;
 
+  // Menghitung indeks gambar berikutnya secara melingkar
   const nextSlide = () => {
     setDirection(1);
-    setCurrentIndex((prev) => 
-      prev === images.length - (slidesToShow || 1) ? 0 : prev + 1
-    );
+    setCurrentIndex((prev) => (prev + 1) % images.length);
   };
 
+  // Menghitung indeks gambar sebelumnya secara melingkar
   const prevSlide = () => {
     setDirection(-1);
-    setCurrentIndex((prev) => 
-      prev === 0 ? images.length - (slidesToShow || 1) : prev - 1
-    );
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
+  // Variants animasi slide dengan arah dan opacity
   const slideVariants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 300 : -300,
-      opacity: 0
+    enter: (dir) => ({
+      x: dir > 0 ? 300 : -300,
+      opacity: 0,
     }),
     center: {
       x: 0,
-      opacity: 1
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+      }
     },
-    exit: (direction: number) => ({
-      x: direction < 0 ? 300 : -300,
-      opacity: 0
-    })
+    exit: (dir) => ({
+      x: dir < 0 ? 300 : -300,
+      opacity: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeIn",
+      }
+    }),
   };
 
+  // Mendapatkan gambar yang akan ditampilkan (slidesToShow banyaknya)
   const getVisibleImages = () => {
     const visibleImages = [];
-    for (let i = 0; i < (slidesToShow || 1); i++) {
-      const index = (currentIndex + i) % images.length;
-      visibleImages.push(images[index]);
+    for (let i = 0; i < slidesToShow; i++) {
+      const idx = (currentIndex + i) % images.length;
+      visibleImages.push({ src: images[idx], idx });
     }
     return visibleImages;
   };
@@ -117,55 +125,55 @@ export default function WelcomeMessage() {
 
         {/* CAROUSEL */}
         <Box position="relative" mb={10} overflow="hidden">
-          <AnimatePresence initial={false} custom={direction} mode="wait">
-            <SimpleGrid
+          <AnimatePresence initial={false} custom={direction} mode="popLayout">
+            <MotionBox
               key={currentIndex}
-              as={motion.div}
               custom={direction}
               variants={slideVariants}
               initial="enter"
               animate="center"
               exit="exit"
-              transition={{ duration: 0.5 }}
-              columns={{ base: 1, md: 3 }}
-              spacing={4}
+              display="grid"
+              gridTemplateColumns={`repeat(${slidesToShow}, 1fr)`}
+              gap={4}
               justifyItems="center"
             >
-              {getVisibleImages().map((src, index) => (
+              {getVisibleImages().map(({ src, idx }) => (
                 <Image
-                  key={`${currentIndex}-${index}`}
+                  key={idx}
                   src={src}
-                  alt={`Couple ${currentIndex + index + 1}`}
+                  alt={`Wedding photo ${idx + 1} of Tiffany and Jared`}
                   objectFit="cover"
-                  borderRadius="md"
                   w="100%"
-                  maxH="400px"
-                  minH="300px"
+                  maxH={{ base: "300px", md: "400px" }}
+                  minH={{ base: "250px", md: "300px" }}
                 />
               ))}
-            </SimpleGrid>
+            </MotionBox>
           </AnimatePresence>
         </Box>
 
         {/* NAVIGATION BUTTONS */}
-        <HStack justify="center" spacing={4}>
+        <HStack justify="center" spacing={6}>
           <IconButton
-            aria-label="Previous"
+            aria-label="Previous slide"
             icon={<FaArrowLeft />}
             variant="outline"
             borderColor="#4a4035"
             color="#4a4035"
             _hover={{ bg: "#4a4035", color: "white" }}
             onClick={prevSlide}
+            size="lg"
           />
           <IconButton
-            aria-label="Next"
+            aria-label="Next slide"
             icon={<FaArrowRight />}
             variant="outline"
             borderColor="#4a4035"
             color="#4a4035"
             _hover={{ bg: "#4a4035", color: "white" }}
             onClick={nextSlide}
+            size="lg"
           />
         </HStack>
       </Container>
