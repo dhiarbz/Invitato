@@ -23,7 +23,7 @@ export default function Home() {
 
   useEffect(()=>{
     setIsClient(true);
-  })
+  },[]);
 
   if(!isClient)return null;
 
@@ -53,7 +53,7 @@ export default function Home() {
         flexDir="column"
         // justifyContent="center"
         px={{ base: 6, md: 12 }}
-        z-index={1}
+        zIndex={1}
       >
         <Box
         position={"absolute"}
@@ -62,9 +62,9 @@ export default function Home() {
         w={"100%"}
         h={"100%"}
         bg="rgba(0, 0, 0, 0.45)"
-        z-index={0}
+        zIndex={0}
         />
-        <Box position={"relative"} z-index={1} >
+        <Box position={"relative"} zIndex={1} >
         <LeftSection />
         </Box>
       </Box>
@@ -76,7 +76,7 @@ export default function Home() {
         minH="100vh"
         ml={{ base: 0, md: "67%" }}
         position="relative"
-        z-index={2}
+        zIndex={2}
       >
         <WeddingInvitation />
       </Box>

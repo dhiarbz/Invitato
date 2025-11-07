@@ -63,7 +63,7 @@ export default function Welcoming(){
                         exit={{ opacity: 0, scale:1.1, transition: { duration: 5}}}
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 10, ease: "linear" }}
-                        z-index={1}
+                        zIndex={1}
                     />
           </AnimatePresence>
         {/* Overlay */}
@@ -74,7 +74,7 @@ export default function Welcoming(){
                     right="0"
                     bottom="0"
                     bg="rgba(0,0,0,0.2)"
-                    z-index={2}
+                    zIndex={2}
                     _hover={{ bg: "rgba(0,0,0,0.25)" }}
                     transition="background 0.3s ease"
                 />
@@ -82,7 +82,7 @@ export default function Welcoming(){
         <VStack 
           spacing={6} 
           position="relative" 
-          z-index={3} 
+          zIndex={3} 
           color="white" 
           textAlign="center"
           px={4}
