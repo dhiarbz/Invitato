@@ -4,6 +4,18 @@ import { useState, useEffect } from "react";
 import { Box, Flex, useBreakpointValue } from "@chakra-ui/react";
 import LeftSection from "../components/LeftSection";
 import WeddingInvitation from "../components/RightSection";
+import WelcomeMessage from "../components/secondPage";
+import BrideAndGroom from "../components/BrideGroom";
+import Quote from "../components/quote";
+import PlaceTime from "../components/placeTime";
+import WeddingGift from "../components/weddingGift";
+import LiveStreaming from "../components/liveStreaming";
+import GettingMarried from "../components/watchVideo";
+import Wishes from "../components/wishes";
+import Countdown from "../components/countdown";
+// import Gallery from "./gallery";
+import Footer from "../components/footer";
+
 
 export default function Home() {
   const isMobile = useBreakpointValue({ base: true, md: false });
