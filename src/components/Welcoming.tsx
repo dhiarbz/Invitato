@@ -1,4 +1,4 @@
-"use state";
+"use client";
 import {useState, useEffect,useRef } from "react";
 import { Box, VStack, Heading, Text, Button, HStack, Icon, useMediaQuery, Container, Grid, GridItem, SimpleGrid  } from '@chakra-ui/react';
 import { motion, AnimatePresence } from 'framer-motion';

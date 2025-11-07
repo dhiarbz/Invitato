@@ -1,3 +1,4 @@
+"use client";
 import { Box, Container, VStack, Text, HStack, Link } from "@chakra-ui/react";
 
 export default function Footer() {

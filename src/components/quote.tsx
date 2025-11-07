@@ -1,3 +1,4 @@
+"use client";
 import { Box, Text, Container, VStack, Icon } from "@chakra-ui/react";
 import { FaQuoteLeft } from "react-icons/fa";
 
