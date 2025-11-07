@@ -1,23 +1,41 @@
 "use state";
-import {useState, useEffect } from "react";
+import {useState, useEffect,useRef } from "react";
 import { Box, VStack, Heading, Text, Button, HStack, Icon, useMediaQuery, Container, Grid, GridItem, SimpleGrid  } from '@chakra-ui/react';
-import { motion, useMotionValue, useTransform } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FaHeart, FaChevronDown,FaChevronUp,FaCalendarAlt, FaClock,FaMap, FaMapMarkerAlt } from 'react-icons/fa';
 
 const MotionBox = motion(Box);
 
-interface InvitationCoverProps {
-    onOpen: () => void;
-}
-
-export default function Welcoming({onOpen}: InvitationCoverProps){
+const backgroundImages = [
+  '/images/9.webp',
+  '/images/1.webp',
+  '/images/3.webp',
+  '/images/11.webp',
+  '/images/10.webp',
+]
+export default function Welcoming(){
+  const [currentBgIndex, setCurrentBgIndex] = useState(0);
     const [countdown, setCountdown] = useState({
         days: 0,
         hours: 0,
         minutes: 0,
         seconds: 0,
     });
+    const countdownRef = useRef<HTMLDivElement>(null);
 
+    useEffect(()=> {
+      const interval = setInterval(()=> {
+        setCurrentBgIndex((prevIndex)=> prevIndex === backgroundImages.length - 1 ? 0 : prevIndex + 1);
+      },5000);
+      return () => clearInterval(interval);
+    },[])
+    const scrollToCountdown = () => {
+        countdownRef.current?.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      };
+      
     return(
     <Box bg="#faf7f2" minH="100vh" overflow="hidden">
       {/* Hero Section */}
@@ -27,25 +45,54 @@ export default function Welcoming({onOpen}: InvitationCoverProps){
         alignItems="center"
         justifyContent="center"
         position="relative"
-        bgImage="url('/images/2.webp')"
-        bgSize="cover"
-        bgPosition="center"
-        _before={{
-          content: '""',
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          bg: "rgba(0,0,0,0.4)",
-        }}
+        overflow={"hidden"}
       >
-        <VStack spacing={6} position="relative" zIndex="1" color="white" textAlign="center">
+        <AnimatePresence mode="wait">
+          <MotionBox
+            key={currentBgIndex}
+            position="absolute"
+            top="0"
+            left="0"
+            right="0"
+            bottom="0"
+            bgImage={`url('${backgroundImages[currentBgIndex]}')`}
+                        bgSize="cover"
+                        bgPosition="center"
+                        initial={{ opacity: 0, scale: 1.1 }}
+                        animate={{ opacity: 1, scale:1, transition: { duration: 8, ease: "easeOut" }}}
+                        exit={{ opacity: 0, scale:1.1, transition: { duration: 5}}}
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 10, ease: "linear" }}
+                        zIndex={1}
+                    />
+          </AnimatePresence>
+        {/* Overlay */}
+                <Box
+                    position="absolute"
+                    top="0"
+                    left="0"
+                    right="0"
+                    bottom="0"
+                    bg="rgba(0,0,0,0.2)"
+                    zIndex={2}
+                    _hover={{ bg: "rgba(0,0,0,0.25)" }}
+                    transition="background 0.3s ease"
+                />
+          
+        <VStack 
+          spacing={6} 
+          position="relative" 
+          zIndex={3} 
+          color="white" 
+          textAlign="center"
+          px={4}
+        >
           <Text
             fontSize="sm"
             letterSpacing="widest"
             textTransform="uppercase"
             fontWeight="light"
+            textShadow="1px 1px 3px rgba(0,0,0,0.5)"
           >
             Wedding Announcement
           </Text>
@@ -54,157 +101,60 @@ export default function Welcoming({onOpen}: InvitationCoverProps){
             fontSize={{ base: "5xl", md: "6xl", lg: "7xl" }}
             fontWeight="light"
             letterSpacing="wide"
+            textShadow="2px 2px 6px rgba(0,0,0,0.6)"
           >
             TIFFANY & JARED
           </Heading>
-          <Text fontSize={{ base: "lg", md: "xl" }} fontWeight="light" fontStyle="italic">
-            June 15, 2025
+          <Text
+            fontSize={{ base: "lg", md: "xl" }}
+            fontStyle="italic"
+            fontWeight="medium"
+            letterSpacing="0.1em"
+            mt={2}
+            textShadow="1px 1px 3px rgba(0,0,0,0.5)"
+            color="rgba(255,255,255,0.95)"
+          >
+            #TImetoshaRE
           </Text>
-          <Icon as={FaHeart} w={8} h={8} color="#c4967c" mt={4} />
-          <VStack spacing={2} mt={8}>
-            <Text fontSize="xs" textTransform="uppercase" letterSpacing="widest">
-              Scroll to explore
-            </Text>
-            <Icon as={FaChevronDown} w={5} h={5} animation="bounce 2s infinite" />
-          </VStack>
+          
+          {/* Scroll to Begin Button */}
+          <MotionBox
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1, duration: 0.8 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Button
+              onClick={scrollToCountdown}
+              variant="ghost"
+              color="white"
+              border="1px solid rgba(255,255,255,0.5)"
+              borderRadius="full"
+              px={8}
+              py={6}
+              fontWeight="light"
+              letterSpacing="0.1em"
+              textTransform="uppercase"
+              fontSize="xs"
+              _hover={{
+                bg: "rgba(255,255,255,0.1)",
+                borderColor: "rgba(255,255,255,0.8)",
+                transform: "translateY(-2px)"
+              }}
+              _active={{
+                transform: "translateY(0px)"
+              }}
+              transition="all 0.3s ease"
+              rightIcon={<FaChevronDown />}
+            >
+              Scroll to Begin
+
+            </Button>
+          </MotionBox>
         </VStack>
       </Box>
 
-      {/* Countdown Section */}
-      <Container maxW="4xl" py={{ base: 10, md: 20 }}>
-        <VStack spacing={{ base: 10, md: 20 }}>
-          <Box textAlign="center">
-            <Heading
-              fontFamily="serif"
-              fontSize={{ base: "2xl", md: "3xl" }}
-              color="#4a4035"
-              mb={6}
-              fontWeight="light"
-            >
-              Counting Down to Our Big Day
-            </Heading>
-            <Grid
-              templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }}
-              gap={6}
-            >
-              {[
-                { label: "Days", value: countdown.days },
-                { label: "Hours", value: countdown.hours },
-                { label: "Minutes", value: countdown.minutes },
-                { label: "Seconds", value: countdown.seconds },
-              ].map((item) => (
-                <GridItem key={item.label}>
-                  <VStack>
-                    <Box
-                      bg="white"
-                      p={{ base: 4, md: 6 }}
-                      borderRadius="xl"
-                      w="full"
-                      boxShadow="md"
-                      border="1px solid #c4967c"
-                    >
-                      <Text
-                        fontSize={{ base: "3xl", md: "4xl" }}
-                        fontWeight="bold"
-                        color="#4a4035"
-                        fontFamily="serif"
-                      >
-                        {item.value}
-                      </Text>
-                    </Box>
-                    <Text fontSize="sm" color="#8b7355" textTransform="uppercase">
-                      {item.label}
-                    </Text>
-                  </VStack>
-                </GridItem>
-              ))}
-            </Grid>
-          </Box>
-
-          {/* Event Details */}
-          <Box w="full">
-            <Heading
-              fontFamily="serif"
-              fontSize={{ base: "2xl", md: "3xl" }}
-              color="#4a4035"
-              textAlign="center"
-              mb={10}
-              fontWeight="light"
-            >
-              Event Details
-            </Heading>
-            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
-              {[
-                {
-                  title: "Holy Matrimony",
-                  date: "Saturday, 15 June 2025",
-                  time: "14:00 - 15:30",
-                  location: "The Grand Ballroom\n123 Romance Street, Love City",
-                },
-                {
-                  title: "Wedding Reception",
-                  date: "Saturday, 15 June 2025",
-                  time: "18:00 - 21:00",
-                  location: "The Grand Ballroom\n123 Romance Street, Love City",
-                },
-              ].map((event) => (
-                <Box
-                  key={event.title}
-                  bg="white"
-                  p={{ base: 6, md: 8 }}
-                  borderRadius="2xl"
-                  boxShadow="xl"
-                  border="1px solid #e8dcd0"
-                >
-                  <VStack spacing={4} align="start">
-                    <Icon as={FaHeart} w={8} h={8} color="#c4967c" />
-                    <Heading
-                      fontFamily="serif"
-                      fontSize={{ base: "xl", md: "2xl" }}
-                      color="#4a4035"
-                      fontWeight="light"
-                    >
-                      {event.title}
-                    </Heading>
-                    <Box h="1px" w="full" bg="#c4967c" opacity="0.3" />
-                    <HStack>
-                      <Icon as={FaCalendarAlt} color="#8b7355" />
-                      <Text color="#6b5d52">{event.date}</Text>
-                    </HStack>
-                    <HStack>
-                      <Icon as={FaClock} color="#8b7355" />
-                      <Text color="#6b5d52">{event.time}</Text>
-                    </HStack>
-                    <HStack align="start">
-                      <Icon as={FaMapMarkerAlt} color="#8b7355" mt={1} />
-                      <Text color="#6b5d52" whiteSpace="pre-line">
-                        {event.location}
-                      </Text>
-                    </HStack>
-                  </VStack>
-                </Box>
-              ))}
-            </SimpleGrid>
-          </Box>
-
-          {/* Footer */}
-          <Box bg="#4a4035" py={10} borderRadius="2xl" textAlign="center" color="white" w="full">
-            <VStack spacing={3}>
-              <Icon as={FaHeart} w={8} h={8} />
-              <Heading
-                fontFamily="serif"
-                fontSize={{ base: "xl", md: "2xl" }}
-                fontWeight="light"
-              >
-                Thank You
-              </Heading>
-              <Text fontSize="sm" opacity="0.8">
-                We are grateful for your love and blessings
-              </Text>
-            </VStack>
-          </Box>
-        </VStack>
-      </Container>
     </Box>
     );
 }
