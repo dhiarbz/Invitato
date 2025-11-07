@@ -3,6 +3,7 @@
 import { Box, Container, Heading, Text, SimpleGrid, Image, HStack, IconButton, useBreakpointValue } from "@chakra-ui/react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
+import { easeIn, easeOut } from "framer-motion";
 import { useState } from "react";
 
 const MotionBox = motion(Box);
@@ -32,29 +33,28 @@ export default function WelcomeMessage() {
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
-  // Variants animasi slide dengan arah dan opacity
-  const slideVariants = {
-    enter: (dir) => ({
-      x: dir > 0 ? 300 : -300,
-      opacity: 0,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut",
-      }
-    },
-    exit: (dir) => ({
-      x: dir < 0 ? 300 : -300,
-      opacity: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeIn",
-      }
-    }),
-  };
+    const slideVariants = {
+      enter: (dir: number) => ({
+        x: dir > 0 ? 300 : -300,
+        opacity: 0,
+      }),
+      center: {
+        x: 0,
+        opacity: 1,
+        transition: {
+          duration: 0.5,
+          ease: easeOut,
+        }
+      },
+      exit: (dir: number) => ({
+        x: dir < 0 ? 300 : -300,
+        opacity: 0,
+        transition: {
+          duration: 0.5,
+          ease: easeIn,
+        }
+      }),
+    };
 
   // Mendapatkan gambar yang akan ditampilkan (slidesToShow banyaknya)
   const getVisibleImages = () => {
