@@ -127,7 +127,7 @@ export default function RightSection() {
           spacing={8}
           textAlign="center"
           position="relative"
-          zIndex="1"
+          z-index="1"
           color="white"
           w={"100%"}
           maxW={"90%"}
@@ -230,7 +230,7 @@ export default function RightSection() {
         left={5}
         display="flex"
         gap={3}
-        zIndex={20}
+        z-index={20}
       >
 
       {/* Tombol Menu Sidebar */}

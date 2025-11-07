@@ -53,7 +53,7 @@ export default function Home() {
         flexDir="column"
         // justifyContent="center"
         px={{ base: 6, md: 12 }}
-        zIndex={1}
+        z-index={1}
       >
         <Box
         position={"absolute"}
@@ -76,7 +76,7 @@ export default function Home() {
         minH="100vh"
         ml={{ base: 0, md: "67%" }}
         position="relative"
-        zIndex={2}
+        z-index={2}
       >
         <WeddingInvitation />
       </Box>
