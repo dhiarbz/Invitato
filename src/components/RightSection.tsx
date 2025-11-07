@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Welcoming from "./Welcoming";
+import Welcoming from "./welcoming";
 import WelcomeMessage from "./secondPage";
 import BrideAndGroom from "./BrideGroom";
 import Quote from "./quote";
