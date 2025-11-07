@@ -1,8 +1,8 @@
 "use client";
 import {useState, useEffect,useRef } from "react";
-import { Box, VStack, Heading, Text, Button, HStack, Icon, useMediaQuery, Container, Grid, GridItem, SimpleGrid  } from '@chakra-ui/react';
+import { Box, VStack, Heading, Text, Button  } from '@chakra-ui/react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaHeart, FaChevronDown,FaChevronUp,FaCalendarAlt, FaClock,FaMap, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaChevronDown } from 'react-icons/fa';
 
 const MotionBox = motion(Box);
 
@@ -15,12 +15,6 @@ const backgroundImages = [
 ]
 export default function Welcoming(){
   const [currentBgIndex, setCurrentBgIndex] = useState(0);
-    const [countdown, setCountdown] = useState({
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-    });
     const countdownRef = useRef<HTMLDivElement>(null);
 
     useEffect(()=> {
