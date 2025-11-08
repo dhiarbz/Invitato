@@ -11,7 +11,7 @@ export default function countdown() {
     seconds: 0,
   });
 
-    const galleryImages = ["/images/1.webp", "/images/5.webp", "/images/3.webp"];
+    const galleryImages = ["/images/1.webp", "/images/6.webp", "/images/3.webp"];
 
   // Ganti tanggal sesuai kebutuhan
   const targetDate = new Date("2025-02-14T00:00:00");
