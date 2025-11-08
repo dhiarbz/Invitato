@@ -1,62 +1,47 @@
 "use client";
 
-import { Box, Container, Heading, Text, SimpleGrid, Image, HStack, IconButton, useBreakpointValue } from "@chakra-ui/react";
+import { useState, useRef } from "react";
+import {
+  Box,
+  Container,
+  Heading,
+  Text,
+  Image,
+  HStack,
+  IconButton,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
-import { easeIn, easeOut } from "framer-motion";
-import { useState } from "react";
+import { motion, useInView, easeInOut } from "framer-motion";
 
 const MotionBox = motion(Box);
+const MotionText = motion(Text);
+const MotionHeading = motion(Heading);
 
 const images = [
   "/images/1.webp",
-  "/images/6.webp", 
+  "/images/6.webp",
   "/images/3.webp",
   "/images/4.webp",
+  "/images/8.webp",
 ];
 
-export default function secondPage() {
+export default function SecondPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const slidesToShow = useBreakpointValue({ base: 1, md: 3 }) || 1;
+  const slidesToShow = useBreakpointValue({ base: 1, md: 3 }) || 3;
 
-  // Menghitung indeks gambar berikutnya secara melingkar
   const nextSlide = () => {
-    setDirection(1);
     setCurrentIndex((prev) => (prev + 1) % images.length);
   };
 
-  // Menghitung indeks gambar sebelumnya secara melingkar
   const prevSlide = () => {
-    setDirection(-1);
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
-    const slideVariants = {
-      enter: (dir: number) => ({
-        x: dir > 0 ? 300 : -300,
-        opacity: 0,
-      }),
-      center: {
-        x: 0,
-        opacity: 1,
-        transition: {
-          duration: 0.5,
-          ease: easeOut,
-        }
-      },
-      exit: (dir: number) => ({
-        x: dir < 0 ? 300 : -300,
-        opacity: 0,
-        transition: {
-          duration: 0.5,
-          ease: easeIn,
-        }
-      }),
-    };
-
-  // Mendapatkan gambar yang akan ditampilkan (slidesToShow banyaknya)
+  // Mendapatkan gambar yang akan ditampilkan (slidesToShow gambar)
   const getVisibleImages = () => {
     const visibleImages = [];
     for (let i = 0; i < slidesToShow; i++) {
@@ -66,8 +51,19 @@ export default function secondPage() {
     return visibleImages;
   };
 
+  // Variants animasi teks untuk stagger effect
+  const textVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.25, duration: 0.6, ease: easeInOut }, // use imported easeInOut function
+    }),
+  };
+
   return (
     <MotionBox
+      ref={ref}
       minH="100vh"
       display="flex"
       justifyContent="center"
@@ -75,86 +71,116 @@ export default function secondPage() {
       bg="#fefefe"
       px={{ base: 4, md: 8 }}
       py={{ base: 10, md: 16 }}
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
       transition={{ duration: 1 }}
     >
       <Container maxW="container.md" textAlign="center" color="#4a4035">
         {/* HEADER */}
-        <Text
+        <MotionText
           fontSize="sm"
           letterSpacing="0.1em"
           fontWeight="bold"
           textTransform="uppercase"
           mb={1}
+          custom={0}
+          variants={textVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
         >
           Dear Mr–Mrs–Ms,
-        </Text>
-        <Text
+        </MotionText>
+
+        <MotionText
           fontSize="sm"
           letterSpacing="0.1em"
           fontWeight="bold"
           textTransform="uppercase"
           mb={6}
+          custom={1}
+          variants={textVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
         >
           Family & Friends
-        </Text>
+        </MotionText>
 
-        <Heading
+        <MotionHeading
           fontFamily="serif"
           fontWeight="500"
           fontSize={{ base: "2xl", md: "3xl" }}
           mb={4}
           lineHeight="short"
+          custom={2}
+          variants={textVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
         >
           Welcome to <br />
           Tiffany & Jared's <br />
           Wedding Website
-        </Heading>
+        </MotionHeading>
 
-        <Text
+        <MotionText
           fontStyle="italic"
           fontSize="md"
           maxW="500px"
           mx="auto"
           color="gray.600"
           mb={10}
+          custom={3}
+          variants={textVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
         >
-          Together with joyful hearts and the grace of God, we joyfully announce the upcoming of our marriage.
-        </Text>
+          Together with joyful hearts and the grace of God, we joyfully announce
+          the upcoming of our marriage.
+        </MotionText>
 
         {/* CAROUSEL */}
         <Box position="relative" mb={10} overflow="hidden">
-          <AnimatePresence initial={false} custom={direction} mode="popLayout">
-            <MotionBox
-              key={currentIndex}
-              custom={direction}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              display="grid"
-              gridTemplateColumns={`repeat(${slidesToShow}, 1fr)`}
-              gap={4}
-              justifyItems="center"
-            >
-              {getVisibleImages().map(({ src, idx }) => (
-                <Image
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            gap={4}
+          >
+            {getVisibleImages().map(({ src, idx }, i) => {
+              // Untuk 3 gambar tengah, gambar kedua (index 1) sebagai highlight
+              const isCenter = slidesToShow === 3 ? i === 1 : true;
+              return (
+                <MotionBox
                   key={idx}
-                  src={src}
-                  alt={`Wedding photo ${idx + 1} of Tiffany and Jared`}
-                  objectFit="cover"
-                  w="100%"
-                  maxH={{ base: "300px", md: "400px" }}
-                  minH={{ base: "250px", md: "300px" }}
-                />
-              ))}
-            </MotionBox>
-          </AnimatePresence>
+                  whileHover={{ scale: 1.05 }}
+                  animate={{
+                    scale: isCenter ? 1.15 : 0.9,
+                    opacity: isCenter ? 1 : 0.7,
+                    y: isCenter ? -10 : 0,
+                  }}
+                  transition={{ duration: 0.5 }}
+                  cursor="pointer"
+                >
+                  <Image
+                    src={src}
+                    alt={`Wedding photo ${idx + 1}`}
+                    objectFit="cover"
+                    // borderRadius="xl"
+                    shadow={isCenter ? "2xl" : "md"}
+                    w={{
+                      base: "280px",
+                      md: isCenter ? "500px" : "300px",
+                    }}
+                    h={{ base: "320px", md: "350px" }}
+                    loading="lazy"
+                  />
+                </MotionBox>
+              );
+            })}
+          </Box>
         </Box>
 
         {/* NAVIGATION BUTTONS */}
-        <HStack justify="center" spacing={6}>
+        <HStack justify="center" spacing={4}>
           <IconButton
             aria-label="Previous slide"
             icon={<FaArrowLeft />}
