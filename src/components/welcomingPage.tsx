@@ -13,7 +13,7 @@ const backgroundImages = [
   '/images/11.webp',
   '/images/10.webp',
 ]
-export default function Welcoming(){
+export default function welcoming(){
   const [currentBgIndex, setCurrentBgIndex] = useState(0);
     const countdownRef = useRef<HTMLDivElement>(null);
 
