@@ -211,18 +211,18 @@ export default function RightSection() {
       animate={{opacity:1}}
       transition={{duration:1}}
     >
-      <Welcoming />
+      <welcoming />
       <secondPage />
-      <BrideAndGroom />
-      <Quote />
-      <PlaceTime />
-      <WeddingGift />
-      <LiveStreaming />
-      <GettingMarried />
-      <Wishes />
-      <Countdown/>
+      <BrideGroom />
+      <quote />
+      <placeTime />
+      <weddingGift />
+      <liveStreaming />
+      <watchVideo />
+      <wishes />
+      <countdown/>
       {/* <Gallery/> */}
-      <Footer /> 
+      <footer /> 
     </motion.div>
     <Box
         position="fixed"
