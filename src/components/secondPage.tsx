@@ -12,7 +12,7 @@ const images = [
   "/images/1.webp",
   "/images/5.webp", 
   "/images/3.webp",
-  "/images/4.webp"
+  "/images/4.webp",
 ];
 
 export default function secondPage() {
