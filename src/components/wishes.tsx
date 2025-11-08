@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 
-export default function Wishes() {
+export default function wishes() {
   const [form, setForm] = useState({
     name: "",
     relationship: "",

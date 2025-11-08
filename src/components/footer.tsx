@@ -1,7 +1,7 @@
 "use client";
 import { Box, Container, VStack, Text, HStack, Link } from "@chakra-ui/react";
 
-export default function Footer() {
+export default function footer() {
   return (
     <Box
       bg="#f9f6f2"

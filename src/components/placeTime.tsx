@@ -2,7 +2,7 @@
 import { Box, Text, Container, VStack, Icon, Heading } from "@chakra-ui/react";
 import { FaQuoteLeft } from "react-icons/fa";
 
-export default function PlaceTime() {
+export default function placeTime() {
   return (
     <Container
       maxW="container.md"

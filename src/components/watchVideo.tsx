@@ -18,7 +18,7 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
     },
   ];
 
-export default function GettingMarried() {
+export default function watchVideo() {
     const [currentIndex, setcurrentIndex] = useState(0);
 
     const handlePrev = () => {

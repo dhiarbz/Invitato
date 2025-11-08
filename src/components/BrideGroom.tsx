@@ -2,7 +2,7 @@
 
 import { Box, Heading, Text, VStack, Image } from "@chakra-ui/react";
 
-export default function BrideAndGroom() {
+export default function BrideGroom() {
   return (
     <Box
       id="bride-groom"

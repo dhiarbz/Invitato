@@ -15,7 +15,7 @@ const images = [
   "/images/4.webp"
 ];
 
-export default function WelcomeMessage() {
+export default function secondPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 

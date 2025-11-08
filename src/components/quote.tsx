@@ -2,7 +2,7 @@
 import { Box, Text, Container, VStack, Icon } from "@chakra-ui/react";
 import { FaQuoteLeft } from "react-icons/fa";
 
-export default function Quote() {
+export default function quote() {
   return (
     <Container
       maxW="container.md"

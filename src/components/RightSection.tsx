@@ -1,18 +1,18 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Welcoming from "./Welcoming";
-import WelcomeMessage from "./secondPage";
-import BrideAndGroom from "./BrideGroom";
-import Quote from "./quote";
-import PlaceTime from "./placeTime";
-import WeddingGift from "./weddingGift";
-import LiveStreaming from "./liveStreaming";
-import GettingMarried from "./watchVideo";
-import Wishes from "./wishes";
-import Countdown from "./countdown";
+import welcoming from "./welcoming";
+import secondPage from "./secondPage";
+import BrideGroom from "./BrideGroom";
+import quote from "./quote";
+import placeTime from "./placeTime";
+import weddingGift from "./weddingGift";
+import liveStreaming from "./liveStreaming";
+import watchVideo from "./watchVideo";
+import wishes from "./wishes";
+import countdown from "./countdown";
 // import Gallery from "./gallery";
-import Footer from "./footer";
+import footer from "./footer";
 
 import {
   Box,
@@ -212,7 +212,7 @@ export default function RightSection() {
       transition={{duration:1}}
     >
       <Welcoming />
-      <WelcomeMessage />
+      <secondPage />
       <BrideAndGroom />
       <Quote />
       <PlaceTime />

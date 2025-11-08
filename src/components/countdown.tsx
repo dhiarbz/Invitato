@@ -3,7 +3,7 @@
 import { Box, Container, VStack, HStack, Text, Heading, Flex, Image } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 
-export default function Countdown() {
+export default function countdown() {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,

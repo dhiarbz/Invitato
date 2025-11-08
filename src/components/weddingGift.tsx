@@ -1,7 +1,7 @@
 "use client";
 import { Box, Text, Container, VStack, Button, Heading } from "@chakra-ui/react";
 
-export default function WeddingGift() {
+export default function weddingGift() {
   return (
     <Box
       minH="40vh"
